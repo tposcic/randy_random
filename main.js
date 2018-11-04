@@ -27,6 +27,28 @@ class App{
             document.getElementById('songTitle').innerHTML = app.currentTrackMetadata.tags.title;
             document.getElementById('albumTitle').innerHTML = app.currentTrackMetadata.tags.album;
             //console.log(app.currentTrackMetadata.tags);
+
+            if (Notification.permission !== "granted")
+                Notification.requestPermission();
+            else {
+                let notification = new Notification('Now playing', {
+                    icon: './notification_button.png',
+                    body: app.currentTrackMetadata.tags.artist+' - '+app.currentTrackMetadata.tags.title,
+                    requireInteraction: false,
+                    priority: 0,
+                });
+
+                notification.onclick = function(event) {
+                    event.preventDefault();
+                    app.playRandom();
+                    notification.close();
+                }
+
+                setTimeout(function() {
+                    notification.close();
+                }, 5000);
+            }
+
         });
     }
     /**
@@ -103,25 +125,18 @@ class App{
 
 const app = new App;
 
+// Bind click and change events
 document.addEventListener("DOMContentLoaded", function(){
-    let start = document.getElementById('start');
-    let autoplayToggle = document.getElementById('autoplayToggle');
-    let replayToggle = document.getElementById('replayToggle');
-    let volumeRange = document.getElementById('volumeRange');
-
-    start.onclick = function() {
+    document.getElementById('start').onclick = function() {
         app.playRandom();
     };
-
-    autoplayToggle.onchange = function() {
+    document.getElementById('autoplayToggle').onchange = function() {
         app.toggleAutoplay(this);
     }
-
-    replayToggle.onchange = function() {
+    document.getElementById('replayToggle').onchange = function() {
         app.toggleReplay(this);
     }
-
-    volumeRange.onchange = function(){
+    document.getElementById('volumeRange').onchange = function(){
         app.changeVolume(this);
     }
 });
