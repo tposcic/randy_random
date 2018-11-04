@@ -53,9 +53,8 @@ class App{
                         }
                     });
 
-                    let object = window.URL.createObjectURL(this.response)
-                    app.currentTrack = object;
-                    callbackFunction(object);
+                    app.currentTrack = this.response;
+                    callbackFunction(this.response);
                 }
             }
         };
@@ -74,8 +73,9 @@ class App{
      * @param {*} track 
      */
     play(track){
+        let trackURL = window.URL.createObjectURL(track)
         let player = document.getElementById('player');
-        player.src = track;
+        player.src = trackURL;
         player.play();
     }
     /**

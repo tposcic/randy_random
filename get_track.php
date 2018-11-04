@@ -1,5 +1,7 @@
 <?php
-    $base_folder = 'G:\\Music\\Metal';
+    $settings = json_decode(file_get_contents("conf.json"));
+
+    $base_folder = $settings->base_folder;
 
     function getRandomFile($path, $type=NULL, $contents=TRUE) {
         if (is_dir($path)) {
