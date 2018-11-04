@@ -95,6 +95,10 @@ class App{
     toggleReplay(input){
         this.replay = input.checked;
     }
+    changeVolume(input){
+        let player = document.getElementById('player');
+        player.volume = input.value;
+    }
 }
 
 const app = new App;
@@ -103,6 +107,7 @@ document.addEventListener("DOMContentLoaded", function(){
     let start = document.getElementById('start');
     let autoplayToggle = document.getElementById('autoplayToggle');
     let replayToggle = document.getElementById('replayToggle');
+    let volumeRange = document.getElementById('volumeRange');
 
     start.onclick = function() {
         app.playRandom();
@@ -114,5 +119,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
     replayToggle.onchange = function() {
         app.toggleReplay(this);
+    }
+
+    volumeRange.onchange = function(){
+        app.changeVolume(this);
     }
 });
