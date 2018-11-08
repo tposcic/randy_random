@@ -1,3 +1,4 @@
 {
-    "base_folder":"G:\\Music\\Metal"
+    "base_folder":"G:\\Music",
+    "ignore_folders": ["Rap","Soundcloud","Zajebancije","Spotovi","Freeplay Music Kolekcija", "Radio", "neznam", "what.cd"]
 }

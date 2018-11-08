@@ -1,7 +1,8 @@
 <?php
-    $settings = json_decode(file_get_contents("conf.json"));
+    $settings = json_decode(file_get_contents("../conf.json"));
 
-    $base_folder = $settings->base_folder;
+    define('BASE_FOLDER', $settings->base_folder);
+    define('IGNORE_FOLDERS', $settings->ignore_folders);
 
     function getRandomFile($path, $type=NULL, $contents=TRUE) {
         if (is_dir($path)) {
@@ -35,7 +36,7 @@
             if ($dh = opendir($path)) {
                 $arr = [];
                 while (false !== ($dir = readdir($dh))) {
-                    if (is_dir("$path/$dir") && !preg_match('/^\.{1,2}$/', $dir)) {
+                    if (is_dir("$path/$dir") && !preg_match('/^\.{1,2}$/', $dir) && !in_array($dir,IGNORE_FOLDERS)) {
                         if(is_null($indexOf)) $arr[] = $dir;
                         if (is_string($indexOf) && strpos($dir, $indexOf) !== FALSE) $arr[] = $dir;
                         elseif (is_array($indexOf)) {
@@ -66,18 +67,17 @@
         return $dir;
     }
 
-    $directory = getBottomDir($base_folder);
+    $directory = getBottomDir(BASE_FOLDER);
     $file = getRandomFile($directory, 'mp3|waw|flac');
 
     while($file == NULL){
-        $directory = getBottomDir($base_folder);
+        $directory = getBottomDir(BASE_FOLDER);
         $file = getRandomFile($directory, 'mp3|waw|flac');
     }
 
     header("Content-Transfer-Encoding: binary"); 
     header("Content-Type: audio/mpeg, audio/x-mpeg, audio/x-mpeg-3, audio/mpeg3"); 
-    header('Content-Disposition: attachment; filename="'.basename($file).'"');
+    header('Content-Disposition: attachment; filename="'.$file.'"');
 
     readfile($file);
     exit;
-?>
