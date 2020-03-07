@@ -56,6 +56,10 @@ class App{
             app.player.currentTime = ((e.pageX - this.offsetLeft) * this.max / this.offsetWidth) * app.player.duration;
         }
     }
+
+    /**
+     * 
+     */
     setDefaults(){
         this.autoplay = JSON.parse(localStorage.getItem('autoplay')) || true;//not working yet, fix pls
         document.getElementById('autoplayToggle').checked = this.autoplay;//not working yet, fix pls
